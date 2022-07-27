@@ -9,15 +9,14 @@
 #include <utils/math/vec2.h>
 #include <utils/graphics/color.h>
 #include <utils/memory.h>
+#include <utils/math/vec2.h>
 
 #include <Windows.h>
 
 #include "error_to_exception.h"
 
-namespace utils
+namespace utils::win32
 	{
-
-	template <typename T = void>
 	class window
 		{
 		private: //Setup stuff
@@ -29,7 +28,7 @@ namespace utils
 
 
 			void set_window_ptr() { SetWindowLongPtr(handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&user_data)); }
-			inline static observer_ptr<window> get_window_ptr(HWND handle) { auto tmp = reinterpret_cast<user_data_t*>(GetWindowLongPtr(handle, GWLP_USERDATA)); return tmp ? tmp->window : nullptr; }
+			inline static utils::observer_ptr<window> get_window_ptr(HWND handle) { auto tmp = reinterpret_cast<user_data_t*>(GetWindowLongPtr(handle, GWLP_USERDATA)); return tmp ? tmp->window : nullptr; }
 
 			inline static LRESULT __stdcall window_procedure(HWND handle, UINT msg, WPARAM wparam, LPARAM lparam) noexcept
 				{
@@ -41,11 +40,11 @@ namespace utils
 					return ::DefWindowProc(handle, msg, wparam, lparam);
 					}
 
-				if (observer_ptr<window> window_ptr{get_window_ptr(handle)}) { return window_ptr->procedure(msg, wparam, lparam); }
+				if (utils::observer_ptr<window> window_ptr{get_window_ptr(handle)}) { return window_ptr->procedure(msg, wparam, lparam); }
 				else { return ::DefWindowProc(handle, msg, wparam, lparam); }
 				}
 
-			struct user_data_t { observer_ptr<window> window; T* userdata; };
+			struct user_data_t { utils::observer_ptr<window> window; void* userdata; };
 
 		public:
 			struct initializer
@@ -92,7 +91,7 @@ namespace utils
 					initializer.size.x, initializer.size.y, nullptr, nullptr, nullptr, this
 				);
 
-				if (!handle) { throw last_error("failed to create window"); }
+				if (!handle) { throw last_error("Failed to create window. Did you forget to create an utils::win32::window::initializer instance?"); }
 
 				
 				// redraw frame
@@ -116,16 +115,14 @@ namespace utils
 			inline ~window() noexcept { if (handle) { ::DestroyWindow(handle); } }
 
 #pragma endregion con/de-structors
-			void set_user_data(T* data) noexcept { user_data.userdata = data; }
-			T* get_user_data() noexcept { return user_data.userdata; }
+			inline void set_user_data(void* data) noexcept { user_data.userdata = data; }
+			inline void* get_user_data() noexcept { return user_data.userdata; }
 
-			bool poll_event() const
+			inline bool poll_event() const
 				{
 				MSG msg;
-				BOOL ret = GetMessage(&msg, handle, 0, 0);
-
-				if (ret < 0) { throw last_error("Error polling window events"); }
-				else if (ret > 0)
+				bool ret = PeekMessage(&msg, handle, 0, 0, PM_REMOVE);
+				if (ret)
 					{
 					::TranslateMessage(&msg);
 					::DispatchMessage(&msg);
@@ -133,16 +130,65 @@ namespace utils
 					}
 				else { return false; }
 				}
+			inline bool is_open() const noexcept { return handle; }
+			inline const HWND get_handle() const noexcept { return handle; }
+
+#pragma region Properties
+			bool resizable = true;
+			utils::math::vec2u size_min{32, 32};
+
+			utils::math::vec2i get_position() const noexcept
+				{
+				RECT rect;
+				GetWindowRect(handle, &rect);
+				return {rect.left, rect.top};
+				}
+			utils::math::vec2u get_size() const noexcept
+				{
+				RECT rect;
+				GetClientRect(handle, &rect);
+				return {static_cast<unsigned>(rect.right), static_cast<unsigned>(rect.bottom)};
+				}
+			void set_position(const utils::math::vec2i& position) noexcept { SetWindowPos(handle, NULL, position.x, position.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER); }
+			void set_size(const utils::math::vec2u& size)     noexcept
+				{
+				// SetWindowPos wants the total size of the window (including title bar and borders),
+				// so we have to compute it
+				RECT rectangle = {0, 0, static_cast<long>(size.x), static_cast<long>(size.y)};
+				AdjustWindowRect(&rectangle, GetWindowLongPtr(handle, GWL_STYLE), false);
+				int width = rectangle.right - rectangle.left;
+				int height = rectangle.bottom - rectangle.top;
+
+				SetWindowPos(handle, NULL, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
+				}
+
+			int       get_x()      const noexcept { return get_position().x; }
+			int       get_y()      const noexcept { return get_position().y; }
+			unsigned  get_width()  const noexcept { return get_size().x; }
+			unsigned  get_height() const noexcept { return get_size().y; }
+
+			void      set_x(int x)           noexcept { set_position({x, get_y()}); }
+			void      set_y(int y)           noexcept { set_position({get_x(), y}); }
+			void      set_width(unsigned x) noexcept { set_size({x, get_height()}); }
+			void      set_height(unsigned y) noexcept { set_size({get_width(), y}); }
+
+			__declspec(property(get = get_x, put = set_x))        int                x;
+			__declspec(property(get = get_y, put = set_y))        int                y;
+			__declspec(property(get = get_width, put = set_width))    unsigned           width;
+			__declspec(property(get = get_height, put = set_height))   unsigned           height;
+			__declspec(property(get = get_position, put = set_position)) utils::math::vec2i position;
+			__declspec(property(get = get_size, put = set_size))     utils::math::vec2u size;
+#pragma endregion
 		protected:
 			std::vector<procedure_t> procedures;
 
 		private:
+			HWND handle{nullptr};
 			inline static constexpr wchar_t class_name[27]{L"CPP_Utilities Window Class"};
 
-			HWND handle{nullptr};
 			user_data_t user_data{this, nullptr};
 
-			inline LRESULT procedure(UINT msg, WPARAM wparam, LPARAM lparam) noexcept
+			/*virtual*/ inline LRESULT procedure(UINT msg, WPARAM wparam, LPARAM lparam) noexcept
 				{
 				std::optional<LRESULT> last_result;
 				for (auto procedure : procedures)
@@ -150,8 +196,14 @@ namespace utils
 					auto result{procedure(msg, wparam, lparam)};
 					if (result) { last_result = result; }
 					}
+				
+				switch (msg)
+					{
+					case WM_NCDESTROY: handle = nullptr; return 0;
+					}
 
 				return last_result ? last_result.value() : DefWindowProc(handle, msg, wparam, lparam);
+				//return DefWindowProc(handle, msg, wparam, lparam);
 				}
 		};
 	};
