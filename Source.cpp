@@ -41,7 +41,7 @@
 //
 //	};
 
-class vulkan_window : public virtual utils::win32::window
+/*class vulkan_window : public virtual utils::win32::window
 	{
 	public:
 		vulkan_window(utils::win32::window::create_info create_info) : utils::win32::window{create_info}
@@ -64,10 +64,10 @@ class vulkan_window : public virtual utils::win32::window
 				}
 			return std::nullopt;
 			}
-	};
+	};*/
 
 //using mytestwindow = test_window<vulkan_window>;
-*/
+
 //int main()
 //	{
 //	/*try

@@ -1,22 +1,66 @@
-#include "include/utils_win32/v2.h"
+﻿#include "include/utils_win32/v2.h"
 
 #include <iostream>
-
+// Let it be recorded to history that I wanted to use '🗔' instead of "window" for the window namespace
 class mine : public virtual utils::win32::window::base
 	{
 	public:
-		std::optional<LRESULT> procedure(mine& t, UINT msg, WPARAM wparam, LPARAM lparam)
+		std::optional<LRESULT> procedure(UINT msg, WPARAM wparam, LPARAM lparam)
 			{
-			std::cout << "yay\n";
+			switch (msg)
+				{
+				case WM_SIZE:
+					{
+					std::cout << width << ", " << height << "\n";
+					}
+				}
 			return std::nullopt;
 			}
 	};
-using window = utils::win32::window::t<mine>;
+
+class troll_close_button : public virtual utils::win32::window::base
+	{
+	public:
+		std::optional<LRESULT> procedure(UINT msg, WPARAM wparam, LPARAM lparam)
+			{
+			switch (msg)
+				{
+				case WM_SIZE:
+					{
+					std::cout << "recreate swapchain\n";
+					}
+				case WM_CLOSE:
+					{
+					return 0;
+					}
+				case WM_SYSCOMMAND:
+					{
+					// Check your window state here
+					switch (wparam)
+						{
+						case SC_MAXIMIZE:
+							{
+							::DestroyWindow(get_handle());
+							return 0;
+							}
+						case SC_MINIMIZE:
+							{
+							ShowWindow(get_handle(), SW_MAXIMIZE);
+							return 0;
+							}
+						}
+					}
+				}
+			return std::nullopt;
+			}
+	};
+
+using window = utils::win32::window::simple_t<mine, troll_close_button>;
 
 
 int main()
 	{
-	try
+	//try
 		{
 		window::initializer i;
 
@@ -25,7 +69,10 @@ int main()
 			.title{L"Pippo"}
 			}};
 
-		while (window.poll_event());
+		while (window.is_open())
+			{
+			while (window.poll_event());
+			}
 		}
-	catch (const std::system_error& e) { ::MessageBoxA(nullptr, e.what(), "Unhandled Exception", MB_OK | MB_ICONERROR); }
+	//catch (const std::system_error& e) { ::MessageBoxA(nullptr, e.what(), "Unhandled Exception", MB_OK | MB_ICONERROR); }
 	}
