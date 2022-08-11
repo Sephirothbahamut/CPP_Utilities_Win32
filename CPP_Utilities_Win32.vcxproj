@@ -135,12 +135,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
-    <ClCompile Include="v2.cpp" />
+    <ClCompile Include="quick_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\utils_win32\error_to_exception.h" />
-    <ClInclude Include="include\utils_win32\v2.h" />
     <ClInclude Include="include\utils_win32\window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
