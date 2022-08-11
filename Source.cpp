@@ -1,4 +1,4 @@
-#include "include/utils_win32/window.h"
+/*#include "include/utils_win32/window.h"
 
 #include <iostream>
 #include <functional>
@@ -44,7 +44,7 @@
 class vulkan_window : public virtual utils::win32::window
 	{
 	public:
-		vulkan_window(utils::win32::window::initializer_t initializer) : utils::win32::window{initializer}
+		vulkan_window(utils::win32::window::create_info create_info) : utils::win32::window{create_info}
 		{
 		procedures.push_back([this](UINT msg, WPARAM wparam, LPARAM lparam) -> std::optional<LRESULT> { return this->procedure(msg, wparam, lparam); });
 		}
@@ -67,31 +67,31 @@ class vulkan_window : public virtual utils::win32::window
 	};
 
 //using mytestwindow = test_window<vulkan_window>;
-
-int main()
-	{
-	/*try
-		{
-		mytestwindow::initializer i;
-
-		mytestwindow window{utils::win32::window::initializer_t
-			{
-			.title{L"Pippo"}
-			}};
-
-		while (window.poll_event());
-		}
-	catch (const std::system_error& e) { ::MessageBoxA(nullptr, e.what(), "Unhandled Exception", MB_OK | MB_ICONERROR); }/*/
-	try
-		{
-		vulkan_window::initializer i;
-
-		vulkan_window window{vulkan_window::initializer_t
-			{
-			.title{L"Pippo"}
-			}};
-
-		while (window.poll_event());
-		}
-	catch (const std::system_error& e) { ::MessageBoxA(nullptr, e.what(), "Unhandled Exception", MB_OK | MB_ICONERROR); }/**/
-	}
+*/
+//int main()
+//	{
+//	/*try
+//		{
+//		mytestwindow::initializer i;
+//
+//		mytestwindow window{utils::win32::window::initializer_t
+//			{
+//			.title{L"Pippo"}
+//			}};
+//
+//		while (window.poll_event());
+//		}
+//	catch (const std::system_error& e) { ::MessageBoxA(nullptr, e.what(), "Unhandled Exception", MB_OK | MB_ICONERROR); }/*/
+//	try
+//		{
+//		vulkan_window::initializer i;
+//
+//		vulkan_window window{vulkan_window::initializer_t
+//			{
+//			.title{L"Pippo"}
+//			}};
+//
+//		while (window.poll_event());
+//		}
+//	catch (const std::system_error& e) { ::MessageBoxA(nullptr, e.what(), "Unhandled Exception", MB_OK | MB_ICONERROR); }/**/
+//	}

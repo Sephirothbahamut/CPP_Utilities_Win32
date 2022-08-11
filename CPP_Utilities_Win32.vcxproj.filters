@@ -18,12 +18,18 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="v2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\utils_win32\error_to_exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\utils_win32\window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils_win32\v2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -68,7 +68,7 @@ namespace utils::win32
 				};
 
 #pragma region con/de-structors
-			struct initializer_t
+			struct create_info
 				{
 				std::wstring title{L"Untitled Window"};
 
@@ -79,16 +79,16 @@ namespace utils::win32
 				bool shadow{true};
 				};
 
-			inline window(const initializer_t& initializer) 
+			inline window(const create_info& create_info)
 				{
-				int x{initializer.position ? initializer.position.value().x : CW_USEDEFAULT};
-				int y{initializer.position ? initializer.position.value().y : CW_USEDEFAULT};
+				int x{create_info.position ? create_info.position.value().x : CW_USEDEFAULT};
+				int y{create_info.position ? create_info.position.value().y : CW_USEDEFAULT};
 
 				handle = ::CreateWindowExW
 				(
-					0, class_name, initializer.title.c_str(),
+					0, class_name, create_info.title.c_str(),
 					WS_OVERLAPPEDWINDOW, x, y,
-					initializer.size.x, initializer.size.y, nullptr, nullptr, nullptr, this
+					create_info.size.x, create_info.size.y, nullptr, nullptr, nullptr, this
 				);
 
 				if (!handle) { throw last_error("Failed to create window. Did you forget to create an utils::win32::window::initializer instance?"); }
