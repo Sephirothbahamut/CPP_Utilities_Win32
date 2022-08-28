@@ -140,7 +140,7 @@ namespace utils::win32::window
 			// SetWindowPos wants the total size of the window (including title bar and borders),
 			// so we have to compute it
 			RECT rectangle = { 0, 0, static_cast<long>(size.x), static_cast<long>(size.y) };
-			AdjustWindowRect(&rectangle, GetWindowLongPtr(handle, GWL_STYLE), false);
+			AdjustWindowRect(&rectangle, static_cast<DWORD>(GetWindowLongPtr(handle, GWL_STYLE)), false);
 			int width = rectangle.right - rectangle.left;
 			int height = rectangle.bottom - rectangle.top;
 
