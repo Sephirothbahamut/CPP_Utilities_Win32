@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\utils_win32\error_to_exception.h" />
+    <ClInclude Include="include\utils_win32\transparent.h" />
     <ClInclude Include="include\utils_win32\window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

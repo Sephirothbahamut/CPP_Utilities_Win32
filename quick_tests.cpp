@@ -1,7 +1,8 @@
 ﻿#include "include/utils_win32/window.h"
-
+#include "include/utils_win32/transparent.h"
 #include <iostream>
 // Let it be recorded to history that I wanted to use '🗔' instead of "window" for the window namespace
+
 class mine : public virtual utils::win32::window::base
 	{
 	public:
@@ -55,7 +56,7 @@ class troll_close_button : public virtual utils::win32::window::base
 			}
 	};
 
-using window = utils::win32::window::simple_t<mine, troll_close_button>;
+using window = utils::win32::window::simple_t<mine, utils::win32::window::transparent<utils::win32::window::transparency_t::composition_attribute>, troll_close_button>;
 
 
 int main()
