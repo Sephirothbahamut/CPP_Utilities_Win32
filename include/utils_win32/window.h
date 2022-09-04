@@ -290,12 +290,6 @@ namespace utils::win32::window
 						case WM_NCDESTROY: handle = nullptr; return 0;
 						}
 
-					// Windowposchanged if handled by the user or DefWndProc will prevent WM_SIZE from being called on window maximize. So we have to explicitely not handle it
-					if (msg == WM_WINDOWPOSCHANGED)
-						{
-						return last_result ? last_result.value() : 1;
-						}
-
 					return last_result ? last_result.value() : DefWindowProc(handle, msg, wparam, lparam);
 					}
 			};
