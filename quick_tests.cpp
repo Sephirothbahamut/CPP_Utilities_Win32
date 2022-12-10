@@ -1,5 +1,6 @@
 ﻿#include "include/utils_win32/window.h"
-#include "include/utils_win32/transparent.h"
+#include "include/utils_win32/style.h"
+#include "include/utils_win32/regions.h"
 #include <iostream>
 // Let it be recorded to history that I wanted to use '🗔' instead of "window" for the window namespace
 
@@ -28,7 +29,6 @@ class troll_close_button : public virtual utils::win32::window::base
 				{
 				case WM_SIZE:
 					{
-					std::cout << "recreate swapchain\n";
 					}
 				case WM_CLOSE:
 					{
@@ -56,18 +56,63 @@ class troll_close_button : public virtual utils::win32::window::base
 			}
 	};
 
-using window = utils::win32::window::simple_t<mine, utils::win32::window::transparent<utils::win32::window::transparency_t::composition_attribute>, troll_close_button>;
 
+struct window : 
+	public utils::win32::window::t
+		<
+		utils::win32::window::style,
+		utils::win32::window::resizable_edge,
+		utils::win32::window::regions,
+		mine, 
+		troll_close_button
+		>, 
+	utils::devirtualize
+	{
+	struct create_info
+		{
+		utils::win32::window::base          ::create_info base          ;
+		utils::win32::window::style         ::create_info style         ;
+		utils::win32::window::resizable_edge::create_info resizable_edge;
+		utils::win32::window::regions       ::create_info regions       ;
+		};
 
+	window(create_info create_info) : 
+		utils::win32::window::base          {create_info.base          },
+		utils::win32::window::style         {create_info.style         },
+		utils::win32::window::resizable_edge{create_info.resizable_edge},
+		utils::win32::window::regions       {create_info.regions       }
+		{}
+	};
+/*/
+using window = utils::win32::window::simple_t<>;
+/**/
 int main()
 	{
 	//try
 		{
-		window::initializer i;
+		window::initializer window_initializer;
 
+		
 		window window{window::create_info
 			{
-			.title{L"Pippo"}
+			.base
+				{
+				.title{L"Pippo"}
+				},
+			.style
+				{
+				.transparency{window::style::transparency_t::composition_attribute},
+				.borders{window::style::value_t::disable},
+				.shadow{window::style::value_t::_default}
+				},
+			.resizable_edge
+				{
+				.thickness{8}
+				},
+			.regions
+				{
+				.default_hit_type{utils::win32::window::hit_type::client}
+				}
 			}};
 
 		while (window.is_open())
