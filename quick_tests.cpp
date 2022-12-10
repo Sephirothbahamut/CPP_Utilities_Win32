@@ -4,17 +4,22 @@
 #include <iostream>
 // Let it be recorded to history that I wanted to use '🗔' instead of "window" for the window namespace
 
-class mine : public virtual utils::win32::window::base
+class resize_printer : public virtual utils::win32::window::base
 	{
 	public:
 		std::optional<LRESULT> procedure(UINT msg, WPARAM wparam, LPARAM lparam)
 			{
 			switch (msg)
 				{
+				case WM_ENTERSIZEMOVE:
+					std::cout << "entered resizing\n";
+					break;
+				case WM_EXITSIZEMOVE:
+					std::cout << "exited resizing\n";
+					break;
 				case WM_SIZE:
-					{
 					std::cout << width << ", " << height << "\n";
-					}
+					break;
 				}
 			return std::nullopt;
 			}
@@ -56,14 +61,13 @@ class troll_close_button : public virtual utils::win32::window::base
 			}
 	};
 
-
 struct window : 
 	public utils::win32::window::t
 		<
 		utils::win32::window::style,
 		utils::win32::window::resizable_edge,
 		utils::win32::window::regions,
-		mine, 
+	resize_printer,
 		troll_close_button
 		>, 
 	utils::devirtualize
@@ -111,7 +115,7 @@ int main()
 				},
 			.regions
 				{
-				.default_hit_type{utils::win32::window::hit_type::client}
+				.default_hit_type{utils::win32::window::hit_type::drag}
 				}
 			}};
 
