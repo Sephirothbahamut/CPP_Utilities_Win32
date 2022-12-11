@@ -31,7 +31,7 @@ namespace utils::win32::window::details::style
 			}
 		}
 
-	auto maximized(HWND hwnd) -> bool
+	inline auto maximized(HWND hwnd) -> bool
 		{
 		WINDOWPLACEMENT placement;
 		if (!::GetWindowPlacement(hwnd, &placement))
@@ -42,7 +42,7 @@ namespace utils::win32::window::details::style
 		return placement.showCmd == SW_MAXIMIZE;
 		}
 
-	auto adjust_maximized_client_rect(HWND window, RECT& rect) -> void
+	inline auto adjust_maximized_client_rect(HWND window, RECT& rect) -> void
 		{
 		if (!maximized(window))
 			{
