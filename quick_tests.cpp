@@ -1,6 +1,6 @@
-﻿#include "include/utils_win32/window.h"
-#include "include/utils_win32/style.h"
-#include "include/utils_win32/regions.h"
+﻿#include "include/utils/win32/window/window.h"
+#include "include/utils/win32/window/style.h"
+#include "include/utils/win32/window/regions.h"
 #include <iostream>
 // Let it be recorded to history that I wanted to use '🗔' instead of "window" for the window namespace
 

@@ -13,7 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\details">
+    <Filter Include="Header Files\window">
+      <UniqueIdentifier>{bf7aef48-097f-477b-b6ea-870604e66df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\window\details">
       <UniqueIdentifier>{7213bbd2-4596-4bea-82f6-5850b518a529}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -23,25 +26,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\utils_win32\error_to_exception.h">
+    <ClInclude Include="include\utils\win32\window\details\DWM.h">
+      <Filter>Header Files\window\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\win32\window\window.h">
+      <Filter>Header Files\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\win32\window\regions.h">
+      <Filter>Header Files\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\win32\window\details\style.h">
+      <Filter>Header Files\window\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\win32\window\style.h">
+      <Filter>Header Files\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\win32\windows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utils_win32\window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utils_win32\style.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utils_win32\details\DWM.h">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utils_win32\details\style.h">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utils_win32\regions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utils_win32\windows.h">
+    <ClInclude Include="include\utils\win32\error_to_exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

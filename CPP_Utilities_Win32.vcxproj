@@ -140,13 +140,13 @@
     <ClCompile Include="quick_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\utils_win32\details\DWM.h" />
-    <ClInclude Include="include\utils_win32\details\style.h" />
-    <ClInclude Include="include\utils_win32\error_to_exception.h" />
-    <ClInclude Include="include\utils_win32\regions.h" />
-    <ClInclude Include="include\utils_win32\style.h" />
-    <ClInclude Include="include\utils_win32\window.h" />
-    <ClInclude Include="include\utils_win32\windows.h" />
+    <ClInclude Include="include\utils\win32\error_to_exception.h" />
+    <ClInclude Include="include\utils\win32\windows.h" />
+    <ClInclude Include="include\utils\win32\window\details\DWM.h" />
+    <ClInclude Include="include\utils\win32\window\details\style.h" />
+    <ClInclude Include="include\utils\win32\window\regions.h" />
+    <ClInclude Include="include\utils\win32\window\style.h" />
+    <ClInclude Include="include\utils\win32\window\window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
