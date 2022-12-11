@@ -2,7 +2,7 @@
 
 ////////////////// NOTE: Your project must include "Dwmapi.lib" and "psapi.lib"
 
-#include "windows.h"
+#include "../../windows.h"
 
 #include <WinUser.h>
 #include <dwmapi.h>
