@@ -123,16 +123,13 @@ namespace utils::win32::window
 				}
 
 #pragma region Properties
-			rect_t get_rect() const noexcept
+			rect_t get_window_rect() const noexcept
 				{
 				RECT rect;
 				GetWindowRect(handle, &rect);
 				return {.rr{rect.right}, .up{rect.top}, .ll{rect.left}, .dw{rect.bottom}};
 				}
-			utils::math::vec2i get_position() const noexcept { return get_rect().pos ; }
-			utils::math::vec2u get_size    () const noexcept { return get_rect().size; }
-
-			void set_rect(rect_t rect) noexcept
+			void set_window_rect(rect_t rect) noexcept
 				{
 				// SetWindowPos wants the total size of the window (including title bar and borders),
 				// so we have to compute it
@@ -144,37 +141,15 @@ namespace utils::win32::window
 
 				SetWindowPos(handle, NULL, rectangle.left, rectangle.top, width, height, SWP_NOZORDER);
 				}
-			void set_position(const utils::math::vec2i& position) noexcept { SetWindowPos(handle, NULL, position.x, position.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER); }
-			void set_size(const utils::math::vec2u& size)     noexcept
+			rect_t get_client_rect() const noexcept
 				{
-				// SetWindowPos wants the total size of the window (including title bar and borders),
-				// so we have to compute it
-				RECT rectangle = {0, 0, static_cast<long>(size.x), static_cast<long>(size.y)};
-				AdjustWindowRect(&rectangle, static_cast<DWORD>(GetWindowLongPtr(handle, GWL_STYLE)), false);
-
-				int width  = rectangle.right - rectangle.left;
-				int height = rectangle.bottom - rectangle.top;
-
-				SetWindowPos(handle, NULL, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
+				RECT rect;
+				GetClientRect(handle, &rect);
+				return {.rr{rect.right}, .up{rect.top}, .ll{rect.left}, .dw{rect.bottom}};
 				}
 
-			int       get_x     () const noexcept { return get_position().x; }
-			int       get_y     () const noexcept { return get_position().y; }
-			unsigned  get_width () const noexcept { return get_size    ().x; }
-			unsigned  get_height() const noexcept { return get_size    ().y; }
-
-			void      set_x     (int x)      noexcept { set_position({x          , get_y     ()}); }
-			void      set_y     (int y)      noexcept { set_position({get_x()    , y           }); }
-			void      set_width (unsigned x) noexcept { set_size    ({x          , get_height()}); }
-			void      set_height(unsigned y) noexcept { set_size    ({get_width(), y           }); }
-
-			__declspec(property(get = get_x       , put = set_x       )) int                               x;
-			__declspec(property(get = get_y       , put = set_y       )) int                               y;
-			__declspec(property(get = get_width   , put = set_width   )) unsigned                          width;
-			__declspec(property(get = get_height  , put = set_height  )) unsigned                          height;
-			__declspec(property(get = get_position, put = set_position)) utils::math::vec2i                position;
-			__declspec(property(get = get_size    , put = set_size    )) utils::math::vec2u                size;
-			__declspec(property(get = get_rect    , put = set_rect    )) rect_t rect;
+			__declspec(property(get = get_window_rect, put = set_window_rect)) rect_t window_rect;
+			__declspec(property(get = get_client_rect                       )) rect_t client_rect;
 #pragma endregion
 		private:
 			HWND create_window(const create_info& create_info)

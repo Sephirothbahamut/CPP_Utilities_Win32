@@ -18,7 +18,8 @@ class resize_printer : public virtual utils::win32::window::base
 					std::cout << "exited resizing\n";
 					break;
 				case WM_SIZE:
-					std::cout << width << ", " << height << "\n";
+					std::cout << "Window: " << window_rect.width << ", " << window_rect.height << "\n";
+					std::cout << "Client: " << client_rect.width << ", " << client_rect.height << "\n";
 					break;
 				}
 			return std::nullopt;
@@ -105,8 +106,8 @@ int main()
 				},
 			.style
 				{
-				.transparency{window::style::transparency_t::composition_attribute},
-				.borders{window::style::value_t::disable},
+				.transparency{window::style::transparency_t::none},
+				.borders{window::style::value_t::enable},
 				.shadow{window::style::value_t::_default}
 				},
 			.resizable_edge

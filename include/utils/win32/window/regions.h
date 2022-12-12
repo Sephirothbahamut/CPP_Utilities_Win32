@@ -45,7 +45,7 @@ namespace utils::win32::window
 		protected:
 			std::optional<hit_type> hit_test(utils::math::vec2i coords) const noexcept
 				{
-				auto rect{this->get_rect()};
+				auto rect{this->get_window_rect()};
 
 				if (!rect.contains(coords)) { return std::nullopt; }
 
@@ -107,7 +107,7 @@ namespace utils::win32::window
 		protected:
 			hit_type hit_test(utils::math::vec2i coords)
 				{
-				auto rect{this->get_rect()};
+				auto rect{this->get_window_rect()};
 
 				if (!rect.contains(coords)) { return hit_type::hole; }
 
