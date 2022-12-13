@@ -68,7 +68,7 @@ int main()
 
 namespace utils::win32::window
 	{
-	using rect_t = utils::math::geometry::aabb<long>;
+	using rect_t = utils::math::rect<long>;
 
 	class base;
 	template <std::derived_from<base> ...window_implementation_ts>
@@ -127,7 +127,7 @@ namespace utils::win32::window
 				{
 				RECT rect;
 				GetWindowRect(handle, &rect);
-				return {.rr{rect.right}, .up{rect.top}, .ll{rect.left}, .dw{rect.bottom}};
+				return {.ll{rect.left}, .up{rect.top}, .rr{rect.right}, .dw{rect.bottom}};
 				}
 			void set_window_rect(rect_t rect) noexcept
 				{
@@ -145,7 +145,7 @@ namespace utils::win32::window
 				{
 				RECT rect;
 				GetClientRect(handle, &rect);
-				return {.rr{rect.right}, .up{rect.top}, .ll{rect.left}, .dw{rect.bottom}};
+				return {.ll{rect.left}, .up{rect.top}, .rr{rect.right}, .dw{rect.bottom}};
 				}
 
 			__declspec(property(get = get_window_rect, put = set_window_rect)) rect_t window_rect;
