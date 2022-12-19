@@ -8,7 +8,7 @@
 #include <dwmapi.h>
 #pragma comment (lib, "dwmapi.lib")//without this dwmapi.h doesn't work :shrugs: no idea whatsoever where the compiler is taking this file from
 #include <tchar.h>
-#include <Shlwapi.h>#pragma once
+#include <Shlwapi.h>
 
 #pragma region DWM import
 typedef enum _WINDOWCOMPOSITIONATTRIB

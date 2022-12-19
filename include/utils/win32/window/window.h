@@ -55,7 +55,6 @@ int main()
 #include <functional>
 
 #include <utils/math/vec2.h>
-#include <utils/graphics/colour.h>
 #include <utils/memory.h>
 #include <utils/math/vec2.h>
 #include <utils/math/geometry/aabb.h>
@@ -87,7 +86,6 @@ namespace utils::win32::window
 
 				std::optional<utils::math::vec2i> position{std::nullopt};
 				utils::math::vec2u size{800u, 600u};
-				utils::graphics::colour::rgba background_color{utils::graphics::colour::black};
 				};
 
 			inline base(const create_info& create_info) : handle{create_window(create_info)}

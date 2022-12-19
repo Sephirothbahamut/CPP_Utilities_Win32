@@ -144,8 +144,10 @@
     <ClInclude Include="include\utils\win32\windows.h" />
     <ClInclude Include="include\utils\win32\window\details\DWM.h" />
     <ClInclude Include="include\utils\win32\window\details\style.h" />
+    <ClInclude Include="include\utils\win32\window\input_system.h" />
     <ClInclude Include="include\utils\win32\window\regions.h" />
     <ClInclude Include="include\utils\win32\window\style.h" />
+    <ClInclude Include="include\utils\win32\window\taskbar.h" />
     <ClInclude Include="include\utils\win32\window\window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

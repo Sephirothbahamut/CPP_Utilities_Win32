@@ -47,5 +47,11 @@
     <ClInclude Include="include\utils\win32\error_to_exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\utils\win32\window\taskbar.h">
+      <Filter>Header Files\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\win32\window\input_system.h">
+      <Filter>Header Files\window</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

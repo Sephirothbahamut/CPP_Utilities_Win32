@@ -33,7 +33,6 @@ namespace utils::win32::window
 			struct create_info { int thickness{8}; };
 
 			resizable_edge(create_info create_info = {}) : thickness{create_info.thickness} {}
-			resizable_edge(int thickness = 8) : thickness{thickness} {}
 
 			int thickness;
 
